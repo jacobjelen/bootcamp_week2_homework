@@ -1,9 +1,14 @@
+//run: npx hardhat run ./scripts/deployWithHardhat.ts —network sepolia
+
 import { viem } from "hardhat";
-import { toHex, hexToString, formatEther } from "viem";
+import { , formatEther } from "viem";
 const PROPOSALS = ["Proposal 1", "Proposal 2", "Proposal 3"];
 
 async function main() {
+  //print command line arguments
+  console.log(process.argv);
   
+
   //View chain and account information before deploying
   const publicClient = await viem.getPublicClient();
   const blockNumber = await publicClient.getBlockNumber();
