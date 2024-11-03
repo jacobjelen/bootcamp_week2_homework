@@ -1,7 +1,7 @@
 //run: npx hardhat run ./scripts/deployWithHardhat.ts —network sepolia
 
 import { viem } from "hardhat";
-import { , formatEther } from "viem";
+import { toHex, hexToString, formatEther } from "viem";
 const PROPOSALS = ["Proposal 1", "Proposal 2", "Proposal 3"];
 
 async function main() {
@@ -30,6 +30,8 @@ async function main() {
     PROPOSALS.map((prop) => toHex(prop, { size: 32 })),
   ]);
   console.log("Ballot contract deployed to:", ballotContract.address);
+  
+  //READ CONTRACT
   console.log("Proposals: ");
   for (let index = 0; index < PROPOSALS.length; index++) {
     const proposal = await ballotContract.read.proposals([BigInt(index)]);
@@ -37,6 +39,8 @@ async function main() {
     console.log({ index, name, proposal });
   } 
 }
+
+
 
 main().catch((error) => {
   console.error(error);
