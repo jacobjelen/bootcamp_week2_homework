@@ -5,7 +5,7 @@ import {
   http,
   createWalletClient,
   formatEther,
-  toHex, hexToString
+  toHex, hexToString, Address
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { sepolia } from "viem/chains";
@@ -69,6 +69,18 @@ async function main() {
   console.log("Ballot contract deployed to:", receipt.contractAddress);
   
 
+  //READ CONTRACT
+  console.log("Proposals: ");
+  for (let index = 0; index < proposals.length; index++) {
+    const proposal = (await publicClient.readContract({
+      address: receipt.contractAddress as Address,
+      abi,
+      functionName: "proposals",
+      args: [BigInt(index)],
+    })) as any[];
+    const name = hexToString(proposal[0], { size: 32 });
+    console.log({ index, name, proposal });
+  }
 }
 
 main().catch((error) => {
